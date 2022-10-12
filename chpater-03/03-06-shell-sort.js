@@ -56,7 +56,12 @@ const gList = Array.from({ length: count }).map((_, i) => 2 ** (count - i) - 1);
 const result1 = shellSort(array, gList); // Shell Sort
 const result2 = shellSort(array, [1]); // Insertion Sort
 
+console.time('built-in sort');
+array.sort((a, b) => a - b);
+console.timeEnd('built-in sort');
+
 console.log(
   'isSame : ',
-  result1.every((_, i) => result1[i] === result2[i])
+  result1.every((_, i) => result1[i] === result2[i]),
+  result1.every((_, i) => result1[i] === array[i])
 );
