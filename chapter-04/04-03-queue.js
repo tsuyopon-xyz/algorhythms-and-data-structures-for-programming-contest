@@ -45,7 +45,11 @@ class Queue {
   }
 
   isFull() {
-    return this.tail - this.head >= this.maxLength;
+    // return this.tail - this.head >= this.maxLength;
+
+    // リングバッファ
+    // https://future-architect.github.io/articles/20210705a/
+    return this.head === (this.tail + 1) % this.maxLength;
   }
 
   isEmpty() {
@@ -60,7 +64,11 @@ class Queue {
     if (this.isFull()) throw new Error('Queue is full.');
 
     this.processes[this.tail] = process;
-    this.tail++;
+    if (this.tail + 1 === this.maxLength) {
+      this.tail = 0;
+    } else {
+      this.tail++;
+    }
   }
 
   /**
@@ -71,7 +79,12 @@ class Queue {
     if (this.isEmpty()) throw new Error('Queue is empty.');
 
     const process = this.processes[this.head];
-    this.head++;
+    if (this.head + 1 === this.maxLength) {
+      this.head = 0;
+    } else {
+      this.head++;
+    }
+
     return process;
   }
 }
@@ -80,14 +93,12 @@ function main() {
   const maxLength = 5;
   const quantam = 100;
   const queue = new Queue(maxLength, quantam);
-  // queue.dequeue(); // isEmpty : true
   const processes = [
     new Process('p1', 150),
     new Process('p2', 80),
     new Process('p3', 200),
     new Process('p4', 350),
-    new Process('p5', 20),
-    // new Process('p6', 120), isFull : true
+    // new Process('p5', 20), // リングバッファ対応で、キューが空ではないときは、1以上のバッファ領域を必要とする
   ];
   processes.forEach((p) => queue.enqueue(p));
 
