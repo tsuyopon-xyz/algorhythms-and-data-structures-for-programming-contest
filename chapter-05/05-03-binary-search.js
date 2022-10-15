@@ -6,11 +6,13 @@
 function binarySearch(sortedNumbers, target) {
   let left = 0;
   let right = sortedNumbers.length;
+  let step = 0;
 
   while (left < right) {
+    step++;
     const middle = left + Math.floor((right - left) / 2);
     const middleValue = sortedNumbers[middle];
-    console.log({ middleValue, middle, left, right });
+    console.log({ step, left, right, middle, middleValue, target });
     if (target === middleValue) {
       return middle;
     } else if (target < middleValue) {
@@ -26,10 +28,9 @@ function binarySearch(sortedNumbers, target) {
 }
 
 // const sortedNumbers = [1, 2, 5, 13, 23, 44, 45, 64, 100];
-const sortedNumbers = Array.from({ length: 100 })
-  .map((_) => Math.floor(Math.random() * 100) + 1)
+const sortedNumbers = Array.from({ length: 1000000 })
+  .map((_) => Math.floor(Math.random() * 1000000) + 1)
   .sort((a, b) => a - b);
-console.log(sortedNumbers);
 const target = 70;
 const result = binarySearch(sortedNumbers, target);
 
