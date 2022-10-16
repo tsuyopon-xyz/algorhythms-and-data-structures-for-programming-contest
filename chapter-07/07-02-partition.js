@@ -1,9 +1,9 @@
 // 入力
 // const n = 12; // 配列Aの要素数
-// const A = [13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11];
-const A = Array.from({ length: 10000000 }).map((_, i, array) =>
-  Math.floor(Math.random() * array.length)
-);
+const A = [13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11];
+// const A = Array.from({ length: 10000 }).map((_, i, array) =>
+//   Math.floor(Math.random() * array.length)
+// );
 
 // 出力
 // [9, 5, 8, 7, 4, 2, 6, [11], 21, 13, 19, 12]
@@ -15,35 +15,40 @@ const A = Array.from({ length: 10000000 }).map((_, i, array) =>
 /**
  *
  * @param {Array<number>} array
+ * @param {number} p firstIndex of array
+ * @param {number} r lastIndex of array
  */
-function solution1(array) {
-  const lastIndex = array.length - 1;
-  const x = array[lastIndex];
-  let i = -1;
-  for (let j = 0; j < lastIndex; j++) {
+function partition(array, p, r) {
+  const x = array[r];
+  let i = p - 1;
+  for (let j = p; j < r; j++) {
     const current = array[j];
     if (current <= x) {
       i++;
       [array[i], array[j]] = [current, array[i]];
     }
   }
-  // console.log({
-  //   'array[i + 1]': array[i + 1],
-  //   'array[lastIndex]': array[lastIndex],
-  //   'i+1': i + 1,
-  //   lastIndex,
-  // });
-  if (i + 1 === lastIndex) {
-    array[lastIndex] = [array[lastIndex]];
+  if (i + 1 === r) {
+    array[r] = [array[r]];
   } else {
-    [array[i + 1], array[lastIndex]] = [[array[lastIndex]], array[i + 1]];
+    [array[i + 1], array[r]] = [[array[r]], array[i + 1]];
   }
-
-  // console.log({ after: array });
 }
-console.time('solution1');
+
+/**
+ *
+ * @param {Array<number>} array
+ */
+function solution1(array) {
+  console.log({ before: array });
+
+  partition(array, 0, array.length - 1);
+
+  console.log({ after: array });
+}
+// console.time('solution1');
 solution1([...A]);
-console.timeEnd('solution1');
+// console.timeEnd('solution1');
 
 /**
  *
@@ -64,6 +69,6 @@ function solution2(array) {
 
   // console.log({ partitionArray });
 }
-console.time('solution2');
-solution2([...A]);
-console.timeEnd('solution2');
+// console.time('solution2');
+// solution2([...A]);
+// console.timeEnd('solution2');
