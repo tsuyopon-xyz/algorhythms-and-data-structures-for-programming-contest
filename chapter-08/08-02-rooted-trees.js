@@ -89,7 +89,6 @@ const nodeInfoList = [
   [9, 0],
   [10, 2, 11, 12],
   [11, 0],
-  [12, 0],
 ];
 const nodes = new Array(nodeInfoList.length);
 
@@ -116,3 +115,23 @@ nodeInfoList.forEach(([id, k, ...childNodeIds]) => {
 });
 
 nodes.forEach((n) => n.print());
+
+// 再帰的にrootからの深さを求めて、木の高さを取得する
+function getHeightOfTree(node, d) {
+  const left = node.left;
+  const right = node.right;
+  console.log({
+    current: node.id,
+    left: left ? left.id : null,
+    right: right ? right.id : null,
+    d,
+  });
+
+  const d1 = left ? getHeightOfTree(left, d + 1) : d;
+  const d2 = right ? getHeightOfTree(right, d) : d;
+
+  return Math.max(d1, d2);
+}
+
+const height = getHeightOfTree(nodes[0], 0);
+console.log('Height of tree : ', height);
