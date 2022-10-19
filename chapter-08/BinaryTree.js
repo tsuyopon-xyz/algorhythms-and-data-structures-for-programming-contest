@@ -10,6 +10,14 @@ class Node {
     this._right = null;
   }
 
+  get left() {
+    return this._left;
+  }
+
+  get right() {
+    return this._right;
+  }
+
   /**
    *
    * @param {Node | null} node
@@ -130,6 +138,41 @@ class BinaryTree {
 
   print() {
     this.nodes.forEach((n) => n.print());
+  }
+
+  // Output: order 0, 1, 2, 3, 4, 5, 6, 7, 8
+  preParse(id) {
+    const node = this.getNode(id);
+    const left = node.left;
+    const right = node.right;
+
+    console.log(id);
+    if (left) this.preParse(left.id);
+    if (right) this.preParse(right.id);
+  }
+
+  // Output: order 2, 1, 3, 0, 6, 5, 7, 4, 8
+  inParse(id) {
+    const node = this.getNode(id);
+    if (!node) return;
+
+    if (node.left) this.inParse(node.left.id);
+    console.log(id);
+    if (node.right) this.inParse(node.right.id);
+  }
+
+  // Output: order 2, 3, 1, 6, 7, 5, 8, 4, 0
+  postParse(id) {
+    const node = this.getNode(id);
+    if (!node) return;
+
+    if (node.left) this.postParse(node.left.id);
+    if (node.right) this.postParse(node.right.id);
+    console.log(id);
+  }
+
+  getNode(id) {
+    return this.nodes[id];
   }
 }
 
