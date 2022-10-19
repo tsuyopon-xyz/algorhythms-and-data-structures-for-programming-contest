@@ -73,6 +73,66 @@ class BinarySearchTree {
     }
   }
 
+  delete(key) {
+    let y; // 削除する対象
+    let x; // yの子
+
+    const targetNode = this.find(key);
+    if (!targetNode.left || !targetNode.right) {
+      y = targetNode;
+    } else {
+      // Successor : 後継者
+      y = this.getSuccessor(targetNode);
+    }
+
+    if (y.left) {
+      x = y.left;
+    } else {
+      x = y.right;
+    }
+
+    if (x) {
+      x.parent = y.parent;
+    }
+    if (!y.parent) {
+      this.root = x;
+    } else {
+      if (y === y.parent.left) {
+        y.parent.left = x;
+      } else {
+        y.parent.right = x;
+      }
+    }
+
+    if (y !== targetNode) {
+      targetNode.key = y.key;
+    }
+
+    y = null;
+  }
+
+  getSuccessor(node) {
+    if (!node.right) {
+      return this.treeMinimum(node);
+    }
+
+    let y = node.parent;
+    while (y && node === y.right) {
+      node = y;
+      y = y.parent;
+    }
+
+    return y;
+  }
+
+  treeMinimum(node) {
+    while (node.left) {
+      node = node.left;
+    }
+
+    return node;
+  }
+
   preParse(node = this.root, array = []) {
     if (!node) return;
 
