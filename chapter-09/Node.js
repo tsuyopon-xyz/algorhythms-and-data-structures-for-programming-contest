@@ -62,6 +62,17 @@ class BinarySearchTree {
     }
   }
 
+  find(key, node = this.root) {
+    if (!node) return null;
+    if (node.key === key) return node;
+
+    if (key < node.key) {
+      return this.find(key, node.left);
+    } else {
+      return this.find(key, node.right);
+    }
+  }
+
   preParse(node = this.root, array = []) {
     if (!node) return;
 
