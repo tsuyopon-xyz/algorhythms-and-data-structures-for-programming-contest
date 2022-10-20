@@ -23,6 +23,15 @@ const actions = [
   },
   {
     command: 'insert',
+    key: 20,
+  },
+  {
+    command: 'insert',
+    key: 24,
+  },
+
+  {
+    command: 'insert',
     key: 1,
   },
   {
@@ -61,13 +70,25 @@ const actions = [
     command: 'print',
     key: undefined,
   },
+  // {
+  //   command: 'delete',
+  //   key: 3,
+  // },
+  // {
+  //   command: 'delete',
+  //   key: 7,
+  // },
+  // {
+  //   command: 'delete',
+  //   key: 22,
+  // },
   {
     command: 'delete',
-    key: 3,
+    key: 8,
   },
   {
     command: 'delete',
-    key: 7,
+    key: 20,
   },
   {
     command: 'print',
@@ -83,7 +104,7 @@ actions.forEach((a) => {
     const node = bsTree.find(a.key);
     node ? console.log('yes') : console.log('no');
   } else if (a.command === 'delete') {
-    // bsTree.delete(a.key);
+    bsTree.delete(a.key);
   } else if (a.command === 'print') {
     const prepersedArray = bsTree.preParse();
     const inParsedArray = bsTree.inParse();
