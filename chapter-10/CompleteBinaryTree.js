@@ -15,7 +15,7 @@ class CompleteBinaryTree {
   }
 
   getMaxIndexWithChild() {
-    return this.size() / 2;
+    return Math.floor(this.size() / 2);
   }
 
   swapNode(node1, node2) {
@@ -32,6 +32,39 @@ class CompleteBinaryTree {
    */
   insert(node) {
     this.nodes.push(node);
+  }
+
+  insertWithMaxHeap(node) {
+    this.insert(node);
+    this.buildMaxHeap();
+    this.createRelationsNodes();
+  }
+
+  extract() {
+    if (this.size() === 0) {
+      return;
+    }
+
+    const headNode = this.nodes[CompleteBinaryTree.START_INDEX];
+    const maxPriorityNode = new Node(headNode.key);
+
+    // key >= 0 のため、「node.key=負の値」のnodeを削除対象にするため
+    headNode.key = Number.NEGATIVE_INFINITY;
+    this.nodes = this.nodes.filter((n, i) => {
+      if (i < CompleteBinaryTree.START_INDEX) {
+        return true;
+      }
+
+      if (n.key >= 0) {
+        return true;
+      }
+
+      return false;
+    });
+    this.buildMaxHeap();
+    this.createRelationsNodes();
+
+    return maxPriorityNode;
   }
 
   createRelationsNodes() {
