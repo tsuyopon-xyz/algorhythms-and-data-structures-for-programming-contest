@@ -6,11 +6,24 @@ class CompleteBinaryTree {
   constructor() {
     // 1オリジンでNodeの配列を保持するため、
     // インデックス番号0番目の領域をあらかじめ埋める
+    // this.nodes = [null];
     this.nodes = [null];
   }
 
   size() {
-    return this.nodes.length;
+    return this.nodes.length - CompleteBinaryTree.START_INDEX;
+  }
+
+  getMaxIndexWithChild() {
+    return this.size() / 2;
+  }
+
+  swapNode(node1, node2) {
+    const indexForNode1 = this.nodes.findIndex((n) => n === node1);
+    const indexForNode2 = this.nodes.findIndex((n) => n === node2);
+
+    this.nodes[indexForNode1] = node2;
+    this.nodes[indexForNode2] = node1;
   }
 
   /**
@@ -36,6 +49,76 @@ class CompleteBinaryTree {
     }
   }
 
+  buildMaxHeap() {
+    const maxIndexWithChild = this.getMaxIndexWithChild();
+    for (let i = maxIndexWithChild; i >= CompleteBinaryTree.START_INDEX; i--) {
+      this.maxHeapfy(i);
+    }
+  }
+
+  /**
+   *
+   * @param {number} index
+   */
+  maxHeapfy(index) {
+    if (
+      index < CompleteBinaryTree.START_INDEX ||
+      this.getMaxIndexWithChild() < index
+    ) {
+      return;
+    }
+    const l = index * 2;
+    const r = index * 2 + 1;
+    const targetNode = this.nodes[index];
+    const leftNode = this.nodes[l];
+    const rightNode = this.nodes[r];
+
+    let largestNode;
+    let largestIndex;
+    if (targetNode.key > leftNode.key) {
+      largestNode = targetNode;
+      largestIndex = index;
+    } else {
+      largestNode = leftNode;
+      largestIndex = l;
+    }
+
+    if (rightNode && rightNode.key > largestNode.key) {
+      largestNode = rightNode;
+      largestIndex = r;
+    }
+
+    if (largestNode !== targetNode) {
+      [targetNode.key, largestNode.key] = [largestNode.key, targetNode.key];
+      // // this.maxHeapfy(index);
+      // console.log(index);
+      this.maxHeapfy(largestIndex);
+    }
+
+    // if (
+    //   index < CompleteBinaryTree.START_INDEX ||
+    //   this.getMaxIndexWithChild() < index
+    // ) {
+    //   return;
+    // }
+
+    // const target = this.nodes[index];
+    // const left = target.left;
+    // const right = target.right;
+
+    // let largestNode = target.key > left.key ? target : left;
+    // if (right && largestNode.key < right.key) {
+    //   largestNode = right;
+    // }
+
+    // if (largestNode !== target) {
+    //   [target.key, largestNode.key] = [largestNode.key, target.key];
+    //   // // this.maxHeapfy(index);
+    //   // console.log(index);
+    //   // this.maxHeapfy();
+    // }
+  }
+
   print() {
     if (this.nodes.length === 0) return;
 
@@ -50,6 +133,11 @@ class CompleteBinaryTree {
         `node ${id}: key = ${key}, parent key = ${parentKey}, left key = ${leftKey}, right key = ${rightKey}`
       );
     }
+  }
+
+  printKeys() {
+    const keys = this.nodes.filter((n) => n).map((n) => n.key);
+    console.log(keys);
   }
 }
 
