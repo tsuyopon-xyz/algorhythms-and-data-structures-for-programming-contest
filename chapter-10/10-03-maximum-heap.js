@@ -17,7 +17,6 @@ keys.forEach((k) => {
   const node = new Node(k);
   tree.insert(node);
 });
-// tree.createRelationsNodes();
-tree.buildMaxHeap();
-// tree.print();
+// tree.buildMaxHeap();
+tree.buildMinHeap();
 tree.printKeys();

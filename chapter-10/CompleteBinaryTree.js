@@ -52,7 +52,14 @@ class CompleteBinaryTree {
   buildMaxHeap() {
     const maxIndexWithChild = this.getMaxIndexWithChild();
     for (let i = maxIndexWithChild; i >= CompleteBinaryTree.START_INDEX; i--) {
-      this.maxHeapfy(i);
+      this.maxHeapify(i);
+    }
+  }
+
+  buildMinHeap() {
+    const maxIndexWithChild = this.getMaxIndexWithChild();
+    for (let i = maxIndexWithChild; i >= CompleteBinaryTree.START_INDEX; i--) {
+      this.minHeapify(i);
     }
   }
 
@@ -60,7 +67,7 @@ class CompleteBinaryTree {
    *
    * @param {number} index
    */
-  maxHeapfy(index) {
+  maxHeapify(index) {
     if (
       index < CompleteBinaryTree.START_INDEX ||
       this.getMaxIndexWithChild() < index
@@ -90,33 +97,46 @@ class CompleteBinaryTree {
 
     if (largestNode !== targetNode) {
       [targetNode.key, largestNode.key] = [largestNode.key, targetNode.key];
-      // // this.maxHeapfy(index);
-      // console.log(index);
-      this.maxHeapfy(largestIndex);
+      this.maxHeapify(largestIndex);
+    }
+  }
+
+  /**
+   *
+   * @param {number} index
+   */
+  minHeapify(index) {
+    if (
+      index < CompleteBinaryTree.START_INDEX ||
+      this.getMaxIndexWithChild() < index
+    ) {
+      return;
+    }
+    const l = index * 2;
+    const r = index * 2 + 1;
+    const targetNode = this.nodes[index];
+    const leftNode = this.nodes[l];
+    const rightNode = this.nodes[r];
+
+    let smallestNode;
+    let smallestIndex;
+    if (targetNode.key < leftNode.key) {
+      smallestNode = targetNode;
+      smallestIndex = index;
+    } else {
+      smallestNode = leftNode;
+      smallestIndex = l;
     }
 
-    // if (
-    //   index < CompleteBinaryTree.START_INDEX ||
-    //   this.getMaxIndexWithChild() < index
-    // ) {
-    //   return;
-    // }
+    if (rightNode && rightNode.key < smallestNode.key) {
+      smallestNode = rightNode;
+      smallestIndex = r;
+    }
 
-    // const target = this.nodes[index];
-    // const left = target.left;
-    // const right = target.right;
-
-    // let largestNode = target.key > left.key ? target : left;
-    // if (right && largestNode.key < right.key) {
-    //   largestNode = right;
-    // }
-
-    // if (largestNode !== target) {
-    //   [target.key, largestNode.key] = [largestNode.key, target.key];
-    //   // // this.maxHeapfy(index);
-    //   // console.log(index);
-    //   // this.maxHeapfy();
-    // }
+    if (smallestNode !== targetNode) {
+      [targetNode.key, smallestNode.key] = [smallestNode.key, targetNode.key];
+      this.minHeapify(smallestIndex);
+    }
   }
 
   print() {
