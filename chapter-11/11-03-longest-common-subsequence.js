@@ -27,6 +27,37 @@ const dataset = [
 
 /**
  *
+ * @param {string[]} text
+ * @param {number[][]} countTable
+ * @param {number} indexM
+ * @param {number} indexN
+ */
+function getCharInRecurcively(textForM, countTable, indexM, indexN) {
+  const currentCount = countTable[indexM][indexN];
+  if (currentCount === 0) {
+    return '';
+  }
+
+  const leftCount = countTable[indexM - 1][indexN];
+  const topCount = countTable[indexM][indexN - 1];
+  if (currentCount !== leftCount && currentCount !== topCount) {
+    const char = textForM[indexM];
+    return (
+      getCharInRecurcively(textForM, countTable, indexM - 1, indexN - 1) + char
+    );
+  } else if (currentCount !== leftCount && currentCount === topCount) {
+    return getCharInRecurcively(textForM, countTable, indexM, indexN - 1);
+  } else if (currentCount === leftCount && currentCount !== topCount) {
+    return getCharInRecurcively(textForM, countTable, indexM - 1, indexN);
+  } else {
+    // TODO 上・左の2パターンに戻って行った時の処理を実装したい
+    return getCharInRecurcively(textForM, countTable, indexM - 1, indexN);
+    // return getCharInRecurcively(textForM, countTable, indexM, indexN - 1);
+  }
+}
+
+/**
+ *
  * @param {string[]} x
  * @param {string[]} y
  */
@@ -57,45 +88,15 @@ function lcs(x, y) {
     }
   }
 
-  let indexMapForBackPropagation = {
-    m: xForLCS.length - 1,
-    n: yForLCS.length - 1,
-
-    // 最長共通部分列の組み合わせの1つを保持
-    word: '',
-  };
-  console.log(
-    '@@@@@@@@',
-    indexMapForBackPropagation.m,
-    indexMapForBackPropagation.n,
-    c[indexMapForBackPropagation.m][indexMapForBackPropagation.n]
+  const word = getCharInRecurcively(
+    xForLCS,
+    c,
+    xForLCS.length - 1,
+    yForLCS.length - 1
   );
-  while (c[indexMapForBackPropagation.m][indexMapForBackPropagation.n] > 0) {
-    const currentLength =
-      c[indexMapForBackPropagation.m][indexMapForBackPropagation.n];
-    const leftLength =
-      c[indexMapForBackPropagation.m - 1][indexMapForBackPropagation.n];
-    const topLength =
-      c[indexMapForBackPropagation.m][indexMapForBackPropagation.n - 1];
-    console.log({ currentLength, leftLength, topLength });
-    if (currentLength !== leftLength && currentLength !== topLength) {
-      indexMapForBackPropagation.word =
-        xForLCS[indexMapForBackPropagation.m] + indexMapForBackPropagation.word;
-      indexMapForBackPropagation.m -= 1;
-      indexMapForBackPropagation.n -= 1;
-    } else if (currentLength === leftLength) {
-      indexMapForBackPropagation.m -= 1;
-    } else {
-      indexMapForBackPropagation.n -= 1;
-    }
 
-    console.log(indexMapForBackPropagation);
-  }
-
-  // console.log(indexMapForBackPropagation);
-
-  return maxLength;
+  return { maxLength, oneOfCombination: word };
 }
 const index = 0;
 const result = lcs(dataset[index].X, dataset[index].Y);
-console.log({ result });
+console.log(result);
