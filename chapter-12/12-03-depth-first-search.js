@@ -56,7 +56,7 @@ class Vertex {
   }
 
   complete(count) {
-    if (this.completeCount === 0) {
+    if (this.color !== Vertex.STATE_COLOR_MAP.COMPLETE) {
       this.completeCount = count;
     }
     this.color = Vertex.STATE_COLOR_MAP.COMPLETE;
