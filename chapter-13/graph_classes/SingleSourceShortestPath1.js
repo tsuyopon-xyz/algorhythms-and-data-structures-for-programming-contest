@@ -116,8 +116,8 @@ class SingleSourceShortestPath1 {
   resetS() {
     // reser after calculate
     this.S.forEach((v) => {
-      v.setWeight(Number.POSITIVE_INFINITY);
       v.reset();
+      v.setWeight(Number.POSITIVE_INFINITY);
     });
     this.S = [];
   }

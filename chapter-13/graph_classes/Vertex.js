@@ -77,6 +77,7 @@ class Vertex {
     this.color = Vertex.STATE_COLOR_MAP.NOT_VISIT;
     this.firstVisitCount = 0;
     this.completeCount = 0;
+    this.weight = 0;
   }
 }
 
