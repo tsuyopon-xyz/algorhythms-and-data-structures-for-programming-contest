@@ -74,6 +74,7 @@ class SingleSourceShortestPath1 {
        * @type {Vertex | undefined}
        */
       let candidateVertex;
+      let parentVertex;
 
       for (let i = 0; i < this.S.length; i++) {
         const currentVertex = this.S[i];
@@ -86,31 +87,33 @@ class SingleSourceShortestPath1 {
           const vertex = this.vertices.find((v) => v.id === j);
           if (vertex.isCompleted()) continue;
 
-          // 低コストの行き方を見つけたら、最小値を更新する
-          if (weight < vertex.weight) {
+          if (!candidateVertex || weight < candidateVertex.weight) {
+            // 低コストの行き方を見つけたら、最小値を更新する
             vertex.setWeight(weight);
-          }
 
-          if (!candidateVertex || vertex.weight < candidateVertex.weight) {
             candidateVertex = vertex;
+            parentVertex = currentVertex;
           }
         }
       }
 
       if (candidateVertex) {
         candidateVertex.complete();
+        candidateVertex.setParent(parentVertex);
         this.S.push(candidateVertex);
       }
     }
-    // console.log(this.vertices);
+
     console.log(`----------start id : ${startId}----------`);
     this.vertices.forEach((v) => {
-      console.log(`id ${v.id}, minWeight: ${v.weight}`);
+      console.log(`id ${v.id}, minTotalCost: ${v.weight}`);
     });
-    console.log(
-      'S : ',
-      this.S.map((v) => v.id)
-    );
+  }
+
+  displayRoutesForAllVertices() {
+    this.vertices.forEach((v) => {
+      v.displayRoutes();
+    });
   }
 
   resetS() {

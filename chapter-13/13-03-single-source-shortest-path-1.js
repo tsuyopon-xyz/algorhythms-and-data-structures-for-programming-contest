@@ -29,3 +29,4 @@ const instance = new SingleSourceShortestPath1(
   matrixForAdjVertexInfoWithWeight
 );
 instance.dijkstra(0);
+instance.displayRoutesForAllVertices();
