@@ -2,6 +2,7 @@ const { AdjVertextInfo } = require('./AdjVertextInfo');
 const { FriendGraph } = require('./FriendGraph');
 const { Graph } = require('./Graph');
 const { MinimumSpanningTree } = require('./MinimumSpanningTree');
+const { SingleSourceShortestPath1 } = require('./SingleSourceShortestPath1');
 const { Vertex } = require('./Vertex');
 
 module.exports = {
@@ -9,5 +10,6 @@ module.exports = {
   FriendGraph,
   Graph,
   MinimumSpanningTree,
+  SingleSourceShortestPath1,
   Vertex,
 };

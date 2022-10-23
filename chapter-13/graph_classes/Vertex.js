@@ -16,6 +16,7 @@ class Vertex {
     this.color = Vertex.STATE_COLOR_MAP.NOT_VISIT;
     this.firstVisitCount = 0; // 何回目の訪問で初めてきたかを記録する（例: 3回目の探索で初めて訪れた場合は3が入る）
     this.completeCount = 0; // 未訪問の隣接する頂点がなくなった時点のカウントを記録する
+    this.weight = 0;
   }
 
   /**
@@ -28,8 +29,20 @@ class Vertex {
     this.adjVertices = adjVertices;
   }
 
+  /**
+   *
+   * @param {number} count
+   */
   setFirstVisitCount(count) {
     this.firstVisitCount = count;
+  }
+
+  /**
+   *
+   * @param {number} weight
+   */
+  setWeight(weight) {
+    this.weight = weight;
   }
 
   nextVertextToVisit() {
