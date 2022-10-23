@@ -20,7 +20,7 @@ const adjVertextInfoList = [
 // 出力
 // id, d, f
 // （頂点番号）, （最初に訪問した発見時刻）,（vの隣接リストを調べ終えた完了時刻）
-// 1 1 2
+// 1 1 12
 // 2 2 11
 // 3 3 8
 // 4 9 10
@@ -32,4 +32,4 @@ const adjVertextInfoList = [
 
 const graphMap = new Graph(adjVertextInfoList);
 graphMap.depthFirstSearch();
-graphMap.print();
+graphMap.printForDepthFirstSearch();

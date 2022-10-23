@@ -28,6 +28,10 @@ class Vertex {
     this.adjVertices = adjVertices;
   }
 
+  setFirstVisitCount(count) {
+    this.firstVisitCount = count;
+  }
+
   nextVertextToVisit() {
     return this.adjVertices.find((v) => {
       return v.color === Vertex.STATE_COLOR_MAP.NOT_VISIT;
@@ -35,14 +39,14 @@ class Vertex {
   }
 
   visit(count) {
-    if (this.color === Vertex.STATE_COLOR_MAP.NOT_VISIT) {
+    if (this.color === Vertex.STATE_COLOR_MAP.NOT_VISIT && count > 0) {
       this.firstVisitCount = count;
     }
     this.color = Vertex.STATE_COLOR_MAP.IN_STACK;
   }
 
   complete(count) {
-    if (this.color !== Vertex.STATE_COLOR_MAP.COMPLETE) {
+    if (this.color !== Vertex.STATE_COLOR_MAP.COMPLETE && count > 0) {
       this.completeCount = count;
     }
     this.color = Vertex.STATE_COLOR_MAP.COMPLETE;

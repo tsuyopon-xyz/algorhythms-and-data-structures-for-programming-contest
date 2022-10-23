@@ -32,9 +32,16 @@ class Graph {
     });
 
     /**
+     * 深さ優先探索用
      * @type {Vertex[]}
      */
     this.stack = [];
+
+    /**
+     * 幅優先探索用
+     * @type {Vertex[]}
+     */
+    this.queue = [];
   }
 
   depthFirstSearch() {
@@ -61,9 +68,37 @@ class Graph {
     }
   }
 
-  print() {
+  breadthFirstSearch() {
+    const startVertex = this.vertices[0];
+    this.queue.push(startVertex);
+
+    while (this.queue.length > 0) {
+      const currentVertex = this.queue.shift();
+      if (!currentVertex.isVisited()) {
+        const count = currentVertex.firstVisitCount
+          ? currentVertex.firstVisitCount
+          : 0;
+        currentVertex.visit(count);
+      }
+
+      currentVertex.adjVertices.forEach((adjV) => {
+        if (!adjV.isVisited()) {
+          this.queue.push(adjV);
+          adjV.visit(currentVertex.firstVisitCount + 1);
+        }
+      });
+    }
+  }
+
+  printForDepthFirstSearch() {
     this.vertices.forEach((v) => {
       console.log(`${v.id} ${v.firstVisitCount} ${v.completeCount}`);
+    });
+  }
+
+  printForBreadthFirstSearch() {
+    this.vertices.forEach((v) => {
+      console.log(`${v.id} ${v.firstVisitCount}`);
     });
   }
 }
